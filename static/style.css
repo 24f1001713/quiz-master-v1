@@ -60,3 +60,7 @@ body{
   .signup_link a:hover{
     text-decoration: underline;
   }
+  .btn{
+    display: flex;
+    gap: 20px;
+  }
