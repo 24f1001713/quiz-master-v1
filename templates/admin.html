@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../static/style2.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Admin Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="#Home">Home</a></li>
+                    <li><a href="#quiz-management">Quiz Management</a></li>
+                    <li><a href="#summary">Summary</a></li>
+                    <li><a href="#logout">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <section id="home">
+            <h2>Subjects</h2>
+            <button>Add New Subject</button>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+                <tr>
+                    <td>
+                        <details>
+                            <summary>Physics</summary>
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                                <tr>
+                                    <td>Forces</td>
+                                    <td><button>Edit</button> <button>Delete</button></td>
+                                </tr>
+                            </table>
+                        </details>
+                    </td>
+                    <td>Basic principles of physics</td>
+                    <td>
+                        <button>Edit</button> 
+                        <button>Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <details>
+                            <summary>Mathematics</summary>
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                                <tr>
+                                    <td>Algebra</td>
+                                    <td><button>Edit</button> <button>Delete</button></td>
+                                </tr>
+                            </table>
+                        </details>
+                    </td>
+                    <td>Fundamentals of mathematics</td>
+                    <td>
+                        <button>Edit</button> 
+                        <button>Delete</button>
+                    </td>
+                </tr>
+            </table>
+        </section>
+    </div>
+</body>
+</html>
