@@ -37,3 +37,38 @@ def register():
             db.session.commit()
             return redirect("/login")
     return render_template("register.html")
+
+@app.route("/home",methods=["GET","POST"])
+def home():
+    return render_template("admin.html")
+
+@app.route("/subject",methods=["GET","POST"])
+def subject():
+    if request.method=="POST":
+        action = request.form.get("action")
+        if action=="SAVE":
+            subject_name = request.form.get("subject")
+            subject_desc = request.form.get("description")
+            new_subject = Subject(subject_name=subject_name,sub_description=subject_desc)
+            db.session.add(new_subject)
+            db.session.commit()
+            return redirect("/home")
+        else:
+            return redirect("/home")
+    return render_template("new_subject.html")
+
+@app.route("/chapter",methods=["GET","POST"])
+def chapter():
+    if request.method=="POST":
+        action = request.form.get("action")
+        if action=="SAVE":
+            chapter_name = request.form.get("chapter")
+            sub_name = request.form.get("sub")
+            sub_id=(Subject.query.filter_by(subject_name=sub_name).first()).id
+            new_chapter = Chapter(chapter_name=chapter_name,subject_id=sub_id)
+            db.session.add(new_chapter)
+            db.session.commit()
+            return redirect("/home")
+        else:
+            return redirect("/home")
+    return render_template("new_chapter.html")
