@@ -7,22 +7,22 @@
 <body>
     <div class="center">
         <h1>Quiz Master Registration</h1>
-        <form method="post">
+        <form action="/register" method="post">
             <div class="txt_field">
-                <input type="text" placeholder="enter here" id="name" required>
+                <input type="text" placeholder="enter here" id="name" name="user" required>
                 <label for="name">Username</label>
             </div>
             <div class="txt_field">
-                <input type="text" placeholder="enter here" id="email" required>
+                <input type="text" placeholder="enter here" id="email" name="email" required>
                 <label for="email">Email</label>
             </div>
             <div class="txt_field">
-                <input type="password" placeholder="enter here" id="pass" required>
+                <input type="password" placeholder="enter here" id="pass" name="password" required>
                 <label for="pass">Create Password</label>
             </div>
             <input type="submit" value="Register">
             <div class="signup_link">
-                Existing User? <a href="../templates/login.html">Login</a>
+                Existing User? <a href="/login">Login</a>
             </div>
         </form>
     </div>
