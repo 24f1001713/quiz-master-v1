@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Quiz Management</title>
+    <link rel="stylesheet" href="../static/style2.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Quiz Management</h1>
+            <nav>
+                <ul>
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="#quiz-management">Quiz</a></li>
+                    <li><a href="#summary">Summary</a></li>
+                    <li><a href="/login">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <section id="quiz-management">
+            <h2>Quizzes</h2>
+            <table>
+                <tr>
+                    <th>Chapter Name</th>
+                    <th>Subject</th>
+                    <th>Actions</th>
+                </tr>
+                <tr>
+                    <td>
+                        <details>
+                            <summary>Forces</summary>
+                            <table>
+                                <tr>
+                                    <th>Quiz Name</th>
+                                    <th>Duration (hh:mm)</th>
+                                    <th>Deadline</th>
+                                    <th>Actions</th>
+                                </tr>
+                                <tr>
+                                    <td>Quiz 1</td>
+                                    <td>01:00</td>
+                                    <td>20/11/2025</td>
+                                    <td>
+                                        <button>Edit</button> <button>Delete</button>
+                                        <form action="/question/Quiz 1" style="display: inline;">
+                                            <button>Add Question</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </details>
+                    </td>
+                    <td>Physics</td>
+                    <td>
+                        <button>Edit</button> 
+                        <button>Delete</button>
+                        <form action="/quiz/Forces" style="display: inline;">
+                            <button>Add New Quiz</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <details>
+                            <summary>Algebra</summary>
+                            <table>
+                                <tr>
+                                    <th>Quiz Name</th>
+                                    <th>Duration (mins)</th>
+                                    <th>Deadline</th>
+                                    <th>Actions</th>
+                                </tr>
+                                <tr>
+                                    <td>Quiz 2</td>
+                                    <td>30</td>
+                                    <td>20/07/2025</td>
+                                    <td>
+                                        <button>Edit</button> <button>Delete</button>
+                                        <form action="/question/Quiz 2" style="display: inline;">
+                                            <button>Add Question</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </details>
+                    </td>
+                    <td>Mathematics</td>
+                    <td>
+                        <button>Edit</button> 
+                        <button>Delete</button>
+                        <form action="/quiz/Algebra" style="display: inline;">
+                            <button>Add New Quiz</button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </section>
+    </div>
+</body>
+</html>
