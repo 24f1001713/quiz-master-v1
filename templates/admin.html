@@ -11,21 +11,21 @@
             <nav>
                 <ul>
                     <li><a href="#Home">Home</a></li>
-                    <li><a href="#quiz-management">Quiz Management</a></li>
+                    <li><a href="/quiz_home">Quiz</a></li>
                     <li><a href="#summary">Summary</a></li>
-                    <li><a href="#logout">Logout</a></li>
+                    <li><a href="/login">Logout</a></li>
                 </ul>
             </nav>
         </header>
         
-        <section id="home">
+        <section id="Home">
             <h2>Subjects</h2>
             <form action="/subject">
                 <button>Add New Subject</button>
             </form>
             <table>
                 <tr>
-                    <th>Name</th>
+                    <th>Subject Name</th>
                     <th>Description</th>
                     <th>Actions</th>
                 </tr>
@@ -36,10 +36,12 @@
                             <table>
                                 <tr>
                                     <th>Name</th>
+                                    <th>No. of Questions</th>
                                     <th>Actions</th>
                                 </tr>
                                 <tr>
                                     <td>Forces</td>
+                                    <td>5</td>
                                     <td><button>Edit</button> <button>Delete</button></td>
                                 </tr>
                             </table>
@@ -61,10 +63,12 @@
                             <table>
                                 <tr>
                                     <th>Name</th>
+                                    <th>No. of Questions</th>
                                     <th>Actions</th>
                                 </tr>
                                 <tr>
                                     <td>Algebra</td>
+                                    <td>10</td>
                                     <td><button>Edit</button> <button>Delete</button></td>
                                 </tr>
                             </table>
