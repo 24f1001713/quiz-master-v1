@@ -7,22 +7,22 @@
 <body>
     <div class="center">
         <h1>Add New Quiz</h1>
-        <form action="" method="post">
+        <form action="/quiz/{{chap_name}}" method="post">
             <div class="txt_field">
                 <label for="quiz">Quiz Name :</label>
-                <input type="text" placeholder="enter here" id="quiz" name="quiz" required>
+                <input type="text" placeholder="enter here" id="quiz" name="quiz">
             </div>
             <div class="txt_field">
                 <label for="duration">Duration :</label>
-                <input type="time" id="duration" name="duration" step="60" required>
+                <input type="time" id="duration" name="duration" step="60">
             </div>
             <div class="txt_field">
                 <label for="deadline">Deadline :</label>
                 <input type="date" id="deadline" name="deadline">
             </div>
             <div class="btn">
-                <input type="submit" value="SAVE">
-                <input type="submit" value="CANCEL">
+                <input type="submit" name="action" value="SAVE">
+                <input type="submit" name="action" value="CANCEL">
             </div>
         </form>
     </div>
