@@ -7,14 +7,10 @@
 <body>
     <div class="center">
         <h1>Add New Chapter</h1>
-        <form action="/chapter" method="post">
+        <form action="/chapter/{{sub_name}}" method="post">
             <div class="txt_field">
                 <label for="chapter">Chapter Name :</label>
                 <input type="text" placeholder="enter here" id="chapter" name="chapter">
-            </div>
-            <div class="txt_field">
-                <label for="sub">Subject :</label>
-                <input type="text" placeholder="enter here" id="sub" name="sub">
             </div>
             <div class="btn">
                 <input type="submit" name="action" value="SAVE">

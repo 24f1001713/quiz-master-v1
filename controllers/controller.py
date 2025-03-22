@@ -2,6 +2,7 @@ from flask import Flask,render_template,redirect,request
 from flask import current_app as app
 from models.model1 import *
 
+@app.route("/",methods=["GET","POST"])
 @app.route("/login",methods=["GET","POST"])
 def login():
     if request.method == "POST":
@@ -57,18 +58,17 @@ def subject():
             return redirect("/home")
     return render_template("new_subject.html")
 
-@app.route("/chapter",methods=["GET","POST"])
-def chapter():
+@app.route("/chapter/<name>",methods=["GET","POST"])
+def chapter(name):
     if request.method=="POST":
         action = request.form.get("action")
         if action=="SAVE":
             chapter_name = request.form.get("chapter")
-            sub_name = request.form.get("sub")
-            sub_id=(Subject.query.filter_by(subject_name=sub_name).first()).id
+            sub_id=(Subject.query.filter_by(subject_name=name).first()).id
             new_chapter = Chapter(chapter_name=chapter_name,subject_id=sub_id)
             db.session.add(new_chapter)
             db.session.commit()
             return redirect("/home")
         else:
             return redirect("/home")
-    return render_template("new_chapter.html")
+    return render_template("new_chapter.html",sub_name=name)
