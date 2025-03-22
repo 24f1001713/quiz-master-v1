@@ -64,7 +64,7 @@ def chapter(name):
         action = request.form.get("action")
         if action=="SAVE":
             chapter_name = request.form.get("chapter")
-            sub_id=(Subject.query.filter_by(subject_name=name).first()).id
+            sub_id = (Subject.query.filter_by(subject_name=name).first()).id
             new_chapter = Chapter(chapter_name=chapter_name,subject_id=sub_id)
             db.session.add(new_chapter)
             db.session.commit()
@@ -72,3 +72,45 @@ def chapter(name):
         else:
             return redirect("/home")
     return render_template("new_chapter.html",sub_name=name)
+
+@app.route("/quiz_home",methods=["GET","POST"])
+def quiz_home():
+    return render_template("quiz_management.html")
+
+@app.route("/quiz/<name>",methods=["GET","POST"])
+def quiz(name):
+    if request.method=="POST":
+        action = request.form.get("action")
+        if action=="SAVE":
+            quiz_name = request.form.get("quiz")
+            duration = request.form.get("duration")
+            deadline = request.form.get("deadline")
+            chap_id = (Chapter.query.filter_by(chapter_name=name).first()).id
+            new_quiz = Quiz(quiz_name=quiz_name,chapter_id=chap_id,deadline=deadline,duration=duration)
+            db.session.add(new_quiz)
+            db.session.commit()
+            return redirect("/quiz_home")
+        else:
+            return redirect("/quiz_home")
+    return render_template("new_quiz.html",chap_name=name)
+
+@app.route("/question/<name>",methods=["GET","POST"])
+def question(name):
+    if request.method=="POST":
+        action = request.form.get("action")
+        if action=="SAVE":
+            qno = request.form.get("qno")
+            qstatement = request.form.get("q")
+            quiz_id = (Quiz.query.filter_by(quiz_name=name).first()).id
+            answer = request.form.get("answer")
+            option1 = request.form.get("option1")
+            option2 = request.form.get("option2")
+            option3 = request.form.get("option3")
+            option4 = request.form.get("option4")
+            new_question = Question(qno=qno,quiz_id=quiz_id,question_statement=qstatement,correct_option=answer,option1=option1,option2=option2,option3=option3,option4=option4)
+            db.session.add(new_question)
+            db.session.commit()
+            return redirect("/quiz_home")
+        else:
+            return redirect("/quiz_home")
+    return render_template("new_question.html",quiz_name=name)
