@@ -15,13 +15,13 @@ class Subject(db.Model):
 
 class Chapter(db.Model):
     id = db.Column(db.Integer,primary_key=True)
-    chapter_name = db.Column(db.String(),unique=True,nullable=False)
+    chapter_name = db.Column(db.String(),nullable=False)
     subject_id = db.Column(db.Integer,db.ForeignKey("subject.id"),nullable=False)
     quiz_details = db.relationship("Quiz",backref="chapter_details")
 
 class Quiz(db.Model):
     id = db.Column(db.Integer,primary_key=True)
-    quiz_name = db.Column(db.String(),unique=True,nullable=False)
+    quiz_name = db.Column(db.String(),nullable=False)
     chapter_id = db.Column(db.Integer,db.ForeignKey("chapter.id"),nullable=False)
     deadline = db.Column(db.String(),nullable=False)
     duration = db.Column(db.String(),nullable=False)
