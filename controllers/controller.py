@@ -12,14 +12,14 @@ def login():
         if check:
             if check.password==pwd:
                 if check.id==1: #admin id is 1.
-                    return render_template("admin.html")
+                    return redirect("/home")
                 else:
                     return render_template("user.html")
             else:
-                return "password is incorrect"
+                return render_template("login.html", error="Incorrect password. Please try again.")
 
         else:
-            return "user doesn't exist"
+            return render_template("login.html", error="User doesn't exist. Please Signup.")
 
     return render_template("login.html")
 
@@ -31,17 +31,18 @@ def register():
         pwd = request.form.get("password")
         check = User.query.filter_by(username=user).first()
         if check:
-            return "user already exist"
+            return render_template("register.html",error="User already exist, Try Login.")
         else:
             new_user = User(username=user,email=email,password=pwd)
             db.session.add(new_user)
             db.session.commit()
-            return redirect("/login")
+            return render_template("login.html",msg="Registered Successfully.")
     return render_template("register.html")
 
 @app.route("/home",methods=["GET","POST"])
 def home():
-    return render_template("admin.html")
+    subject_info = Subject.query.all()
+    return render_template("admin.html",subject_info=subject_info)
 
 @app.route("/subject",methods=["GET","POST"])
 def subject():
@@ -75,7 +76,8 @@ def chapter(name):
 
 @app.route("/quiz_home",methods=["GET","POST"])
 def quiz_home():
-    return render_template("quiz_management.html")
+    chapter_info = Chapter.query.all()
+    return render_template("quiz_management.html",chapter_info=chapter_info)
 
 @app.route("/quiz/<name>",methods=["GET","POST"])
 def quiz(name):

@@ -8,6 +8,9 @@
     <div class="center">
         <h1>Quiz Master Registration</h1>
         <form action="/register" method="post">
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>
+            {% endif %}
             <div class="txt_field">
                 <input type="text" placeholder="enter here" id="name" name="user" required>
                 <label for="name">Username</label>

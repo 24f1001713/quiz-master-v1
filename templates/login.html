@@ -8,6 +8,12 @@
     <div class="center">
         <h1>Quiz Master Login</h1>
         <form action="/login" method="post">
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>
+            {% endif %}
+            {% if msg %}
+                <p style="color: green;">{{ msg }}</p>
+            {% endif %}
             <div class="txt_field">
                 <input type="text" placeholder="enter here" id="user" name="user" required>
                 <label for="user">Username/Email</label>
