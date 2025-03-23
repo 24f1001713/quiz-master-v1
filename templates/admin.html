@@ -29,60 +29,35 @@
                     <th>Description</th>
                     <th>Actions</th>
                 </tr>
+                {% for subject in subject_info %}
                 <tr>
                     <td>
                         <details>
-                            <summary>Physics</summary>
+                            <summary>{{subject.subject_name}}</summary>
                             <table>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>No. of Questions</th>
+                                    <th>Chapter Name</th>
                                     <th>Actions</th>
                                 </tr>
+                                {% for chapter in subject.chap_details %}
                                 <tr>
-                                    <td>Forces</td>
-                                    <td>5</td>
+                                    <td>{{chapter.chapter_name}}</td>
                                     <td><button>Edit</button> <button>Delete</button></td>
                                 </tr>
+                                {% endfor %}
                             </table>
                         </details>
                     </td>
-                    <td>Basic principles of physics</td>
+                    <td>{{subject.sub_description}}</td>
                     <td>
                         <button>Edit</button> 
                         <button>Delete</button>
-                        <form action="/chapter/Physics" style="display: inline;">
+                        <form action="/chapter/{{subject.subject_name}}" style="display: inline;">
                             <button>Add Chapter</button>
                         </form>
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <details>
-                            <summary>Mathematics</summary>
-                            <table>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>No. of Questions</th>
-                                    <th>Actions</th>
-                                </tr>
-                                <tr>
-                                    <td>Algebra</td>
-                                    <td>10</td>
-                                    <td><button>Edit</button> <button>Delete</button></td>
-                                </tr>
-                            </table>
-                        </details>
-                    </td>
-                    <td>Fundamentals of mathematics</td>
-                    <td>
-                        <button>Edit</button> 
-                        <button>Delete</button>
-                        <form action="/chapter/Mathematics" style="display: inline;">
-                            <button>Add Chapter</button>
-                        </form>
-                    </td>
-                </tr>
+                {% endfor %}
             </table>
         </section>
     </div>
