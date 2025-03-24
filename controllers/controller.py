@@ -139,3 +139,8 @@ def quiz_search(username):
     query = request.args.get("query", "").strip().lower()
     quiz_info = Quiz.query.filter(Quiz.quiz_name.ilike(f"%{query}%")).all()
     return render_template("user.html",query=query,quiz_info=quiz_info,user=username)
+
+@app.route("/view/<name>/<username>",methods=["GET","POST"])
+def view(name,username):
+    quizname = Quiz.query.filter_by(quiz_name=name).first()
+    return render_template("view.html",quiz=quizname,user=username)

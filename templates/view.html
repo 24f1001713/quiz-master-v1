@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Quiz Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style3.css') }}">
+</head>
+<body>
+    <table>
+        <tr>
+            <th colspan="2">Quiz Details</th>
+        </tr>
+        <tr>
+            <th>ID:</th>
+            <td>{{quiz.id}}</td>
+        </tr>
+        <tr>
+            <th>Subject:</th>
+            <td>{{quiz.chapter_details.sub_details.subject_name}}</td>
+        </tr>
+        <tr>
+            <th>Chapter:</th>
+            <td>{{quiz.chapter_details.chapter_name}}</td>
+        </tr>
+        <tr>
+            <th>No. of Questions:</th>
+            <td>{{quiz.question_details | length}}</td>
+        </tr>
+        <tr>
+            <th>Deadline:</th>
+            <td>{{quiz.deadline}}</td>
+        </tr>
+        <tr>
+            <th>Duration (hh:mm):</th>
+            <td>{{quiz.duration}}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <form action="/user/{{user}}">
+                    <button>CLOSE</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

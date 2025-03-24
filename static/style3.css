@@ -1,0 +1,41 @@
+body {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+table{
+    border-collapse: collapse;
+    width: 70%;
+    background-color: white;
+    color: black;
+    font-family: system-ui;
+    border: 2px solid black;
+    text-align: center;
+    margin: auto;
+}
+
+th{
+    padding: 10px;
+    font-size: 20px;
+    border: 3px solid black;
+}
+
+td{
+    padding: 10px;
+    border: 3px solid black;
+}
+
+button {
+    text-align: center;
+    background: #444;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+button:hover {
+    background: #666;
+}
