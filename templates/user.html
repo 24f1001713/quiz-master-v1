@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="../static/style2.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>User Dashboard</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <nav>
+                <ul>
+                    <li><a href="/user/{{user}}">Home</a></li>
+                    <li><a href="#scores">Scores</a></li>
+                    <li><a href="#summary">Summary</a></li>
+                    <li><a href="/login">Logout</a></li>
+                </ul>
+            </nav>
+                <h3 style="padding-right: 75px;">Welcome, {{user}}!</h3>
+                <form method="GET" action="/quiz_search/{{user}}">
+                    <input type="text" name="query" placeholder="Search for quiz">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+        </header>
+        
+        <section id="Home">
+            {% if query %}
+            <h2>Results for "{{query}}"</h2>
+            {% else %}
+            <h2>Upcoming Quizzes</h2>
+            {% endif %}
+            <table>
+                <tr>
+                    <th>Quiz Name</th>
+                    <th>No. of Questions</th>
+                    <th>Deadline</th>
+                    <th>Duration (hh:mm)</th>
+                    <th>Actions</th>
+                </tr>
+                {% for quiz in quiz_info %}
+                <tr>
+                    <td>{{quiz.quiz_name}}</td>
+                    <td>{{quiz.question_details | length}}</td>
+                    <td>{{quiz.deadline}}</td>
+                    <td>{{quiz.duration}}</td>
+                    <td>
+                        <button>View</button> 
+                        <button>Start</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+    </div>
+</body>
+</html>

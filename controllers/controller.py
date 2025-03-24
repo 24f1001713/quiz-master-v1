@@ -14,7 +14,7 @@ def login():
                 if check.id==1: #admin id is 1.
                     return redirect("/home")
                 else:
-                    return render_template("user.html")
+                    return redirect(f"/user/{user}")
             else:
                 return render_template("login.html", error="Incorrect password. Please try again.")
 
@@ -128,3 +128,14 @@ def chap_search():
     query = request.args.get("query", "").strip().lower()
     chapter_info = Chapter.query.filter(Chapter.chapter_name.ilike(f"%{query}%")).all()
     return render_template("quiz_management.html",query=query,chapter_info=chapter_info)
+
+@app.route("/user/<username>",methods=["GET","POST"])
+def user(username):
+    quiz_info = Quiz.query.all()
+    return render_template("user.html",quiz_info=quiz_info,user=username)
+
+@app.route("/quiz_search/<username>")
+def quiz_search(username):
+    query = request.args.get("query", "").strip().lower()
+    quiz_info = Quiz.query.filter(Quiz.quiz_name.ilike(f"%{query}%")).all()
+    return render_template("user.html",query=query,quiz_info=quiz_info,user=username)
