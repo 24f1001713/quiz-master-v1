@@ -8,18 +8,29 @@
     <div class="container">
         <header>
             <h1>Admin Dashboard</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
             <nav>
                 <ul>
-                    <li><a href="#Home">Home</a></li>
+                    <li><a href="/home">Home</a></li>
                     <li><a href="/quiz_home">Quiz</a></li>
                     <li><a href="#summary">Summary</a></li>
                     <li><a href="/login">Logout</a></li>
                 </ul>
             </nav>
+                <h3 style="padding-right: 75px;">Welcome, Admin!</h3>
+                <form method="GET" action="/sub_search">
+                    <input type="text" name="query" placeholder="Search for subjects">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
         </header>
         
         <section id="Home">
+            {% if query %}
+            <h2>Results for "{{query}}"</h2>
+            {% else %}
             <h2>Subjects</h2>
+            {% endif %}
             <form action="/subject">
                 <button>Add New Subject</button>
             </form>

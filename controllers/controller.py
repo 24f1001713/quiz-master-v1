@@ -116,3 +116,15 @@ def question(name):
         else:
             return redirect("/quiz_home")
     return render_template("new_question.html",quiz_name=name)
+
+@app.route("/sub_search")
+def sub_search():
+    query = request.args.get("query", "").strip().lower()
+    subject_info = Subject.query.filter(Subject.subject_name.ilike(f"%{query}%")).all()
+    return render_template("admin.html",query=query,subject_info=subject_info)
+
+@app.route("/chap_search")
+def chap_search():
+    query = request.args.get("query", "").strip().lower()
+    chapter_info = Chapter.query.filter(Chapter.chapter_name.ilike(f"%{query}%")).all()
+    return render_template("quiz_management.html",query=query,chapter_info=chapter_info)

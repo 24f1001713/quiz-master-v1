@@ -8,18 +8,29 @@
     <div class="container">
         <header>
             <h1>Quiz Management</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
             <nav>
                 <ul>
                     <li><a href="/home">Home</a></li>
-                    <li><a href="#quiz-management">Quiz</a></li>
+                    <li><a href="/quiz_management">Quiz</a></li>
                     <li><a href="#summary">Summary</a></li>
                     <li><a href="/login">Logout</a></li>
                 </ul>
             </nav>
+                <h3 style="padding-right: 75px;">Welcome, Admin!</h3>
+                <form method="GET" action="/chap_search">
+                    <input type="text" name="query" placeholder="Search for chapters">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
         </header>
         
-        <section id="quiz-management">
+        <section id="quiz_management">
+            {% if query %}
+            <h2>Results for "{{query}}"</h2>
+            {% else %}
             <h2>Quizzes</h2>
+            {% endif %}
             <table>
                 <tr>
                     <th>Chapter Name</th>
