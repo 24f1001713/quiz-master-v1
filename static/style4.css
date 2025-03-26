@@ -1,0 +1,58 @@
+body {
+    font-family: system-ui;
+    background: black;
+    color: black;
+    margin: 0;
+    padding: 20px;
+}
+.quiz {
+    width: 80%;
+    margin: auto;
+    border: 2px solid white;
+    padding: 20px;
+    border-radius: 10px;
+    background: white;
+}
+h1 {
+    text-align: center;
+}
+.info {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+.question {
+    border-left: 3px solid black;
+    padding-left: 10px;
+    margin: 20px 0;
+}
+.options label {
+    display: block;
+    margin: 5px 0;
+}
+.time-left {
+    color: red;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 3px solid black;
+}
+
+button {
+    background: #444;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+button:hover {
+    background: #666;
+}
+
+.but {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
