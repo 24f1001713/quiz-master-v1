@@ -12,12 +12,12 @@
             <nav>
                 <ul>
                     <li><a href="/user/{{user}}">Home</a></li>
-                    <li><a href="#scores">Scores</a></li>
+                    <li><a href="/scores/{{user}}">Scores</a></li>
                     <li><a href="#summary">Summary</a></li>
                     <li><a href="/login">Logout</a></li>
                 </ul>
             </nav>
-                <h3 style="padding-right: 100px;">Welcome, {{user}}!</h3>
+                <h2 style="padding-right: 100px;">Welcome, {{user}}!</h2>
                 <form method="GET" action="/quiz_search/{{user}}">
                     <input type="text" name="query" placeholder="Search for quiz">
                     <button type="submit">Search</button>
@@ -28,9 +28,8 @@
         <section id="Home">
             {% if query %}
             <h2>Results for "{{query}}"</h2>
-            {% else %}
-            <h2>Upcoming Quizzes</h2>
             {% endif %}
+            <h2>Upcoming Quizzes</h2>
             <table>
                 <tr>
                     <th>Quiz Name</th>
@@ -46,10 +45,10 @@
                     <td>{{quiz.deadline}}</td>
                     <td>{{quiz.duration}}</td>
                     <td>
-                        <form action="/view/{{quiz.quiz_name}}/{{user}}" style="display: inline-block;">
+                        <form action="/view/{{quiz.id}}/{{user}}" style="display: inline-block;">
                             <button>View</button>
                         </form>
-                        <form action="/start" style="display: inline-block;">
+                        <form action="/start/{{quiz.id}}/{{user}}" style="display: inline-block;">
                             <button>Start</button>
                         </form>
                     </td>
