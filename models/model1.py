@@ -26,7 +26,7 @@ class Quiz(db.Model):
     deadline = db.Column(db.String(),nullable=False)
     duration = db.Column(db.String(),nullable=False)
     question_details = db.relationship("Question",backref="quiz_details")
-    score_details = db.relationship("Scores",backref="quiz_details")
+    score_details = db.relationship("Scores",uselist=False,backref="quiz_details")
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -38,9 +38,10 @@ class Question(db.Model):
     option3 = db.Column(db.String(), nullable=False)
     option4 = db.Column(db.String(), nullable=False)
     correct_option = db.Column(db.Integer, nullable=False)
+    choosen_option = db.Column(db.Integer, nullable=True)
 
 class Scores(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    score = db.Column(db.Integer, nullable=False)
+    score = db.Column(db.Integer, nullable=False, default=-1)
     user_id = db.Column(db.Integer,db.ForeignKey("user.id"),nullable=False)
     quiz_id = db.Column(db.Integer,db.ForeignKey("quiz.id"),nullable=False)
