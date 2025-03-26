@@ -96,26 +96,25 @@ def quiz(name):
             return redirect("/quiz_home")
     return render_template("new_quiz.html",chap_name=name)
 
-@app.route("/question/<name>",methods=["GET","POST"])
-def question(name):
+@app.route("/question/<int:id>",methods=["GET","POST"])
+def question(id):
     if request.method=="POST":
         action = request.form.get("action")
         if action=="SAVE":
             qno = request.form.get("qno")
             qstatement = request.form.get("q")
-            quiz_id = (Quiz.query.filter_by(quiz_name=name).first()).id
             answer = request.form.get("answer")
             option1 = request.form.get("option1")
             option2 = request.form.get("option2")
             option3 = request.form.get("option3")
             option4 = request.form.get("option4")
-            new_question = Question(qno=qno,quiz_id=quiz_id,question_statement=qstatement,correct_option=answer,option1=option1,option2=option2,option3=option3,option4=option4)
+            new_question = Question(qno=qno,quiz_id=id,question_statement=qstatement,correct_option=answer,option1=option1,option2=option2,option3=option3,option4=option4)
             db.session.add(new_question)
             db.session.commit()
             return redirect("/quiz_home")
         else:
             return redirect("/quiz_home")
-    return render_template("new_question.html",quiz_name=name)
+    return render_template("new_question.html",quiz_name=id)
 
 @app.route("/sub_search")
 def sub_search():
@@ -140,7 +139,40 @@ def quiz_search(username):
     quiz_info = Quiz.query.filter(Quiz.quiz_name.ilike(f"%{query}%")).all()
     return render_template("user.html",query=query,quiz_info=quiz_info,user=username)
 
-@app.route("/view/<name>/<username>",methods=["GET","POST"])
-def view(name,username):
-    quizname = Quiz.query.filter_by(quiz_name=name).first()
-    return render_template("view.html",quiz=quizname,user=username)
+@app.route("/view/<int:id>/<username>",methods=["GET","POST"])
+def view(id,username):
+    quiz_info = Quiz.query.filter_by(id=id).first()
+    return render_template("view.html",quiz=quiz_info,user=username)
+
+@app.route("/start/<int:id>/<username>",methods=["GET","POST"])
+def start(id,username):
+    question_info = Question.query.filter_by(quiz_id=id).all()
+    quizid = Quiz.query.filter_by(id=id).first()
+    return render_template("start.html",question_info=question_info,user=username,quiz=quizid)
+
+@app.route("/scores/<username>", defaults={"id": None}, methods=["GET", "POST"])
+@app.route("/scores/<int:id>/<username>",methods=["GET","POST"])
+def scores(id,username):
+    if request.method=="POST":
+        question_info = Question.query.filter_by(quiz_id=id).all()
+        submitted_answers = {int(key): int(request.form.get(key, 0)) for key in request.form.keys()}
+        for qno,ans in submitted_answers.items():
+            quest = Question.query.filter_by(qno=qno,quiz_id=id).first()
+            quest.choosen_option = ans
+        db.session.commit()
+        score = 0
+        for q in question_info:
+            if q.correct_option == submitted_answers[q.qno]:
+                score = score+1
+        user = User.query.filter_by(username=username).first()
+        new_score = Scores(score=score,quiz_id=id,user_id=user.id)
+        db.session.add(new_score)
+        db.session.commit()
+    quiz_info = Quiz.query.all()
+    return render_template("scores.html",quiz_info=quiz_info,user=username)
+
+@app.route("/view_attempt/<int:id>/<username>",methods=["GET","POST"])
+def view_attempt(id,username):
+    question_info = Question.query.filter_by(quiz_id=id).all()
+    quizid = Quiz.query.filter_by(id=id).first()
+    return render_template("view_attempt.html",question_info=question_info,user=username,quiz=quizid)
