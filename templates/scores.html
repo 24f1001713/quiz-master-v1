@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Scores Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Scores Dashboard</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <nav>
+                <ul>
+                    <li><a href="/user/{{user}}">Home</a></li>
+                    <li><a href="/scores/{{user}}">Scores</a></li>
+                    <li><a href="#summary">Summary</a></li>
+                    <li><a href="/login">Logout</a></li>
+                </ul>
+            </nav>
+                <h2 style="padding-right: 100px;">Welcome, {{user}}!</h2>
+                <form method="GET" action="/quiz_search/{{user}}">
+                    <input type="text" name="query" placeholder="Search for quiz">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+        </header>
+        <section id="Scores">
+            {% if query %}
+            <h2>Results for "{{query}}"</h2>
+            {% endif %}
+            <h2>QUIZ SCORES</h2>
+            <table>
+                <tr>
+                    <th>Quiz Name</th>
+                    <th>Chapter Name</th>
+                    <th>No. of Questions</th>
+                    <th>Total Score</th>
+                    <th>Actions</th>
+                </tr>
+                {% for quiz in quiz_info %}
+                <tr>
+                    <td>{{quiz.quiz_name}}</td>
+                    <td>{{quiz.chapter_details.chapter_name}}</td>
+                    <td>{{quiz.question_details | length}}</td>
+                    {% if quiz.score_details and quiz.score_details.score >=0 %}
+                    <td>{{quiz.score_details.score}}</td>
+                    <td>
+                        <form action="/view_attempt/{{quiz.id}}/{{user}}" style="display: inline-block;">
+                            <button>View Attempt</button>
+                        </form>
+                    </td>
+                    {% else %}
+                    <td>Not Attempted</td>
+                    <td>
+                        <form action="/start/{{quiz.id}}/{{user}}" style="display: inline-block;">
+                            <button>Start</button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+    </div>
+</body>
+</html>

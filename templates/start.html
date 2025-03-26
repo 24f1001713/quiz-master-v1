@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style4.css') }}">
+</head>
+<body>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let quizDuration = "{{ quiz.duration }}"; // Get duration from Jinja2 (hh:mm)
+        
+            function startCountdown(duration) {
+                let timeParts = duration.split(":");
+                let hours = parseInt(timeParts[0], 10);
+                let minutes = parseInt(timeParts[1], 10);
+                let totalSeconds = hours * 3600 + minutes * 60; // Convert to seconds
+        
+                function updateTimer() {
+                    if (totalSeconds <= 0) {
+                        document.getElementById("time-left").textContent = "Time Left: 00:00:00";
+                        return; // Stop countdown
+                        document.getElementById("quiz-form").submit();
+                    }
+        
+                    totalSeconds--; // Decrease time
+                    let hh = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
+                    let mm = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
+                    let ss = String(totalSeconds % 60).padStart(2, "0");
+        
+                    document.getElementById("time-left").textContent = `Time Left: ${hh}:${mm}:${ss}`;
+                    setTimeout(updateTimer, 1000); // Repeat every second
+                }
+        
+                updateTimer(); // Start the countdown
+            }
+        
+            startCountdown(quizDuration); // Initialize countdown with Jinja2 duration
+        });
+    </script>
+
+    <div class="quiz">
+        <div class="header">
+            <h2>Subject: {{quiz.chapter_details.sub_details.subject_name}}</h2>
+            <h2>Quiz name: {{quiz.quiz_name}}</h2>
+            <h2>Chapter: {{quiz.chapter_details.chapter_name}}</h2>
+        </div>
+        <div class="info">
+            Total Marks: {{question_info | length}}
+            <strong class="time-left" id="time-left">Time Left: {{quiz.duration}}:00</strong>
+        </div>
+        <form id="quiz-form" action="/scores/{{quiz.id}}/{{user}}" method="POST">
+        {% for question in question_info %}
+        <div class="question">
+            <p><strong>Question {{question.qno}}:</strong></p>
+            <p>{{question.question_statement}}</p>
+            <div class="options">
+                <label><input type="radio" name="{{question.qno}}" value="1"> {{question.option1}}</label>
+                <label><input type="radio" name="{{question.qno}}" value="2"> {{question.option2}}</label>
+                <label><input type="radio" name="{{question.qno}}" value="3"> {{question.option3}}</label>
+                <label><input type="radio" name="{{question.qno}}" value="4"> {{question.option4}}</label>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="but">
+            <button>SUBMIT</button>
+        </div>
+        </form>
+    </div>
+
+</body>
+</html>
