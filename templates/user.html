@@ -27,7 +27,7 @@
         
         <section id="Home">
             {% if query %}
-            <h2>Results for "{{query}}"</h2>
+            <h1>Results for "{{query}}"</h1>
             {% endif %}
             <h2>Upcoming Quizzes</h2>
             <table>
@@ -40,6 +40,7 @@
                 </tr>
                 {% for quiz in quiz_info %}
                 <tr>
+                    {% if not quiz.score_details %}
                     <td>{{quiz.quiz_name}}</td>
                     <td>{{quiz.question_details | length}}</td>
                     <td>{{quiz.deadline}}</td>
@@ -52,6 +53,34 @@
                             <button>Start</button>
                         </form>
                     </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+        <section id="Home">
+            <h2>Attempted Quizzes</h2>
+            <table>
+                <tr>
+                    <th>Quiz Name</th>
+                    <th>No. of Questions</th>
+                    <th>Deadline</th>
+                    <th>Duration (hh:mm)</th>
+                    <th>Actions</th>
+                </tr>
+                {% for quiz in quiz_info %}
+                <tr>
+                    {% if quiz.score_details %}
+                    <td>{{quiz.quiz_name}}</td>
+                    <td>{{quiz.question_details | length}}</td>
+                    <td>{{quiz.deadline}}</td>
+                    <td>{{quiz.duration}}</td>
+                    <td>
+                        <form action="/view/{{quiz.id}}/{{user}}" style="display: inline-block;">
+                            <button>View</button>
+                        </form>
+                    </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </table>
