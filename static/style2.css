@@ -67,3 +67,15 @@ summary {
     cursor: pointer;
     font-weight: bold;
 }
+
+.link{
+    color: yellow;
+}
+
+.link:hover{
+    color: orange;
+}
+
+.link:active{
+    color: red;
+}
