@@ -5,19 +5,19 @@ class User(db.Model):
     username = db.Column(db.String(),unique=True,nullable=False)
     email = db.Column(db.String(),unique=True,nullable=False)
     password = db.Column(db.String(),nullable=False)
-    score_details = db.relationship("Scores",backref="user_details")
+    score_details = db.relationship("Scores",backref="user_details",cascade="all, delete")
 
 class Subject(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     subject_name = db.Column(db.String(),unique=True,nullable=False)
     sub_description = db.Column(db.String(),nullable=False)
-    chap_details = db.relationship("Chapter",backref="sub_details")
+    chap_details = db.relationship("Chapter",backref="sub_details",cascade="all, delete")
 
 class Chapter(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     chapter_name = db.Column(db.String(),nullable=False)
     subject_id = db.Column(db.Integer,db.ForeignKey("subject.id"),nullable=False)
-    quiz_details = db.relationship("Quiz",backref="chapter_details")
+    quiz_details = db.relationship("Quiz",backref="chapter_details",cascade="all, delete")
 
 class Quiz(db.Model):
     id = db.Column(db.Integer,primary_key=True)
@@ -25,8 +25,8 @@ class Quiz(db.Model):
     chapter_id = db.Column(db.Integer,db.ForeignKey("chapter.id"),nullable=False)
     deadline = db.Column(db.String(),nullable=False)
     duration = db.Column(db.String(),nullable=False)
-    question_details = db.relationship("Question",backref="quiz_details")
-    score_details = db.relationship("Scores",uselist=False,backref="quiz_details")
+    question_details = db.relationship("Question",backref="quiz_details",cascade="all, delete")
+    score_details = db.relationship("Scores",uselist=False,backref="quiz_details",cascade="all, delete")
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
