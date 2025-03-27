@@ -52,7 +52,7 @@
                                 </tr>
                                 {% for quiz in chapter.quiz_details %}
                                 <tr>
-                                    <td>{{quiz.quiz_name}}</td>
+                                    <td><a href="/view_quest/{{quiz.id}}" class="link">{{quiz.quiz_name}}</a></td>
                                     <td>{{quiz.question_details | length}}</td>
                                     <td>{{quiz.duration}}</td>
                                     <td>{{quiz.deadline}}</td>

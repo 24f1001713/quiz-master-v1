@@ -237,3 +237,37 @@ def delete_quiz(id):
     db.session.delete(quiz)
     db.session.commit()
     return redirect("/quiz_home")
+
+@app.route("/view_quest/<int:quiz_id>",methods=["GET","POST"])
+def view_quest(quiz_id):
+    question_info = Question.query.filter_by(quiz_id=quiz_id).all()
+    quiz = Quiz.query.filter_by(id=quiz_id).first()
+    return render_template("view_quest.html",quiz=quiz,question_info=question_info)
+
+@app.route("/edit_quest/<int:id>",methods=["GET","POST"])
+def edit_quest(id):
+    question = Question.query.filter_by(id=id).first()
+    quiz_id = question.quiz_id
+    if request.method=="POST":
+        action = request.form.get("action")
+        if action=="SAVE":
+            question.qno = request.form.get("qno")
+            question.question_statement = request.form.get("q")
+            question.correct_option = request.form.get("answer")
+            question.option1 = request.form.get("option1")
+            question.option2 = request.form.get("option2")
+            question.option3 = request.form.get("option3")
+            question.option4 = request.form.get("option4")
+            db.session.commit()
+            return redirect(f"/view_quest/{quiz_id}")
+        else:
+            return redirect(f"/view_quest/{quiz_id}")
+    return render_template("edit_quest.html",question=question)
+
+@app.route("/delete_quest/<int:id>",methods=["GET","POST"])
+def delete_quest(id):
+    question = Question.query.filter_by(id=id).first()
+    quiz_id = question.quiz_id
+    db.session.delete(question)
+    db.session.commit()
+    return redirect(f"/view_quest/{quiz_id}")
