@@ -59,20 +59,19 @@ def subject():
             return redirect("/home")
     return render_template("new_subject.html")
 
-@app.route("/chapter/<name>",methods=["GET","POST"])
-def chapter(name):
+@app.route("/chapter/<int:id>",methods=["GET","POST"])
+def chapter(id):
     if request.method=="POST":
         action = request.form.get("action")
         if action=="SAVE":
             chapter_name = request.form.get("chapter")
-            sub_id = (Subject.query.filter_by(subject_name=name).first()).id
-            new_chapter = Chapter(chapter_name=chapter_name,subject_id=sub_id)
+            new_chapter = Chapter(chapter_name=chapter_name,subject_id=id)
             db.session.add(new_chapter)
             db.session.commit()
             return redirect("/home")
         else:
             return redirect("/home")
-    return render_template("new_chapter.html",sub_name=name)
+    return render_template("new_chapter.html",sub_id=id)
 
 @app.route("/quiz_home",methods=["GET","POST"])
 def quiz_home():
@@ -176,3 +175,44 @@ def view_attempt(id,username):
     question_info = Question.query.filter_by(quiz_id=id).all()
     quizid = Quiz.query.filter_by(id=id).first()
     return render_template("view_attempt.html",question_info=question_info,user=username,quiz=quizid)
+
+@app.route("/edit_subject/<int:id>",methods=["GET","POST"])
+def edit_subject(id):
+    subject = Subject.query.filter_by(id=id).first()
+    if request.method=="POST":
+        action = request.form.get("action")
+        if action=="SAVE":
+            subject.subject_name = request.form.get("subject")
+            subject.sub_description = request.form.get("description")
+            db.session.commit()
+            return redirect("/home")
+        else:
+            return redirect("/home")
+    return render_template("edit_subject.html",subject=subject)
+
+@app.route("/delete_subject/<int:id>",methods=["GET","POST"])
+def delete_subject(id):
+    subject = Subject.query.filter_by(id=id).first()
+    db.session.delete(subject)
+    db.session.commit()
+    return redirect("/home")
+
+@app.route("/edit_chapter/<int:id>",methods=["GET","POST"])
+def edit_chapter(id):
+    chapter = Chapter.query.filter_by(id=id).first()
+    if request.method=="POST":
+        action = request.form.get("action")
+        if action=="SAVE":
+            chapter.chapter_name = request.form.get("chapter")
+            db.session.commit()
+            return redirect("/home")
+        else:
+            return redirect("/home")
+    return render_template("edit_chapter.html",chapter=chapter)
+
+@app.route("/delete_chapter/<int:id>",methods=["GET","POST"])
+def delete_chapter(id):
+    chapter = Chapter.query.filter_by(id=id).first()
+    db.session.delete(chapter)
+    db.session.commit()
+    return redirect("/home")

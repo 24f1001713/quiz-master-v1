@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Edit Subject</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <div class="center">
+        <h1>Edit Subject</h1>
+        <form action="/edit_subject/{{subject.id}}" method="post">
+            <div class="txt_field">
+                <label for="subject">Subject Name :</label>
+                <input type="text" id="subject" name="subject" value="{{subject.subject_name}}">
+            </div>
+            <div class="txt_field">
+                <label for="description">Subject Description :</label>
+                <input type="text" id="description" name="description" value="{{subject.sub_description}}">
+            </div>
+            <div class="btn">
+                <input type="submit" name="action" value="SAVE">
+                <input type="submit" name="action" value="CANCEL">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
