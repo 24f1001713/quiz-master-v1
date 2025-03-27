@@ -78,22 +78,21 @@ def quiz_home():
     chapter_info = Chapter.query.all()
     return render_template("quiz_management.html",chapter_info=chapter_info)
 
-@app.route("/quiz/<name>",methods=["GET","POST"])
-def quiz(name):
+@app.route("/quiz/<int:id>",methods=["GET","POST"])
+def quiz(id):
     if request.method=="POST":
         action = request.form.get("action")
         if action=="SAVE":
             quiz_name = request.form.get("quiz")
             duration = request.form.get("duration")
             deadline = request.form.get("deadline")
-            chap_id = (Chapter.query.filter_by(chapter_name=name).first()).id
-            new_quiz = Quiz(quiz_name=quiz_name,chapter_id=chap_id,deadline=deadline,duration=duration)
+            new_quiz = Quiz(quiz_name=quiz_name,chapter_id=id,deadline=deadline,duration=duration)
             db.session.add(new_quiz)
             db.session.commit()
             return redirect("/quiz_home")
         else:
             return redirect("/quiz_home")
-    return render_template("new_quiz.html",chap_name=name)
+    return render_template("new_quiz.html",chap_id=id)
 
 @app.route("/question/<int:id>",methods=["GET","POST"])
 def question(id):
@@ -216,3 +215,25 @@ def delete_chapter(id):
     db.session.delete(chapter)
     db.session.commit()
     return redirect("/home")
+
+@app.route("/edit_quiz/<int:id>",methods=["GET","POST"])
+def edit_quiz(id):
+    quiz = Quiz.query.filter_by(id=id).first()
+    if request.method=="POST":
+        action = request.form.get("action")
+        if action=="SAVE":
+            quiz.quiz_name = request.form.get("quiz")
+            quiz.duration = request.form.get("duration")
+            quiz.deadline = request.form.get("deadline")
+            db.session.commit()
+            return redirect("/quiz_home")
+        else:
+            return redirect("/quiz_home")
+    return render_template("edit_quiz.html",quiz=quiz)
+
+@app.route("/delete_quiz/<int:id>",methods=["GET","POST"])
+def delete_quiz(id):
+    quiz = Quiz.query.filter_by(id=id).first()
+    db.session.delete(quiz)
+    db.session.commit()
+    return redirect("/quiz_home")

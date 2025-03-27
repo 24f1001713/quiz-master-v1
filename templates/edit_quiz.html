@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Edit Quiz</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <div class="center">
+        <h1>Edit Quiz</h1>
+        <form action="/edit_quiz/{{quiz.id}}" method="post">
+            <div class="txt_field">
+                <label for="quiz">Quiz Name :</label>
+                <input type="text" value="{{quiz.quiz_name}}" id="quiz" name="quiz">
+            </div>
+            <div class="txt_field">
+                <label for="duration">Duration :</label>
+                <input type="time" id="duration" name="duration" step="60" value="{{quiz.duration}}">
+            </div>
+            <div class="txt_field">
+                <label for="deadline">Deadline :</label>
+                <input type="date" id="deadline" name="deadline" value="{{quiz.deadline}}">
+            </div>
+            <div class="btn">
+                <input type="submit" name="action" value="SAVE">
+                <input type="submit" name="action" value="CANCEL">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
