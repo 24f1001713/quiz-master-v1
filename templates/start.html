@@ -19,8 +19,8 @@
                 function updateTimer() {
                     if (totalSeconds <= 0) {
                         document.getElementById("time-left").textContent = "Time Left: 00:00:00";
-                        return; // Stop countdown
                         document.getElementById("quiz-form").submit();
+                        return; // Stop countdown
                     }
         
                     totalSeconds--; // Decrease time
