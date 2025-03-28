@@ -293,7 +293,28 @@ def delete_quest(id):
 
 @app.route("/generate_chart/<name>",methods=["GET","POST"])
 def generate_chart(name):
-    top_scores = (
+    if name=="admin":
+        user_count = (
+        db.session.query(
+            Quiz.quiz_name,
+            db.func.count(QuizAttempt.id).label("user_count")
+        )
+        .join(QuizAttempt, Quiz.id == QuizAttempt.quiz_id)
+        .group_by(Quiz.quiz_name)
+        .all()
+        )
+
+        df = pd.DataFrame(user_count, columns=["quiz", "user_count"])
+        plt.figure(figsize=(10, 5))
+        bars = plt.bar(df["quiz"], df["user_count"], color=["#4B0082", "#008080", "#2E8B57", "#32CD32"])
+        plt.title("Quiz-wise Number of Users", fontsize=14, fontweight="bold")
+        plt.xlabel("Quiz", fontsize=12)
+        plt.ylabel("Number of Users", fontsize=12)
+        plt.savefig("static/top_scores_chart.png")
+        plt.close()
+        return render_template("admin_summary.html")
+    else:
+        top_scores = (
         db.session.query(
             Quiz.quiz_name,
             db.func.max(QuizAttempt.score).label("top_score")
@@ -301,14 +322,14 @@ def generate_chart(name):
         .join(QuizAttempt, Quiz.id == QuizAttempt.quiz_id)
         .group_by(Quiz.quiz_name)
         .all()
-    )
+        )
 
-    df = pd.DataFrame(top_scores, columns=["quiz", "topscore"])
-    plt.figure(figsize=(10, 5))
-    bars = plt.bar(df["quiz"], df["topscore"], color=["#4B0082", "#008080", "#2E8B57", "#32CD32"])
-    plt.title("Quiz-wise Top Scores", fontsize=14, fontweight="bold")
-    plt.xlabel("Quiz", fontsize=12)
-    plt.ylabel("Top Score", fontsize=12)
-    plt.savefig("static/top_scores_chart.png")
-    plt.close()
-    return render_template("summary.html",user=name)
+        df = pd.DataFrame(top_scores, columns=["quiz", "topscore"])
+        plt.figure(figsize=(10, 5))
+        bars = plt.bar(df["quiz"], df["topscore"], color=["#4B0082", "#008080", "#2E8B57", "#32CD32"])
+        plt.title("Quiz-wise Top Scores", fontsize=14, fontweight="bold")
+        plt.xlabel("Quiz", fontsize=12)
+        plt.ylabel("Top Score", fontsize=12)
+        plt.savefig("static/top_scores_chart.png")
+        plt.close()
+        return render_template("summary.html",user=name)

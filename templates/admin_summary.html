@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../static/style2.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Admin Dashboard</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <nav>
+                <ul>
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/quiz_home">Quiz</a></li>
+                    <li><a href="/generate_chart/admin">Summary</a></li>
+                    <li><a href="/login">Logout</a></li>
+                </ul>
+            </nav>
+                <h2 style="padding-right: 75px;">Welcome, Admin!</h2>
+            </div>
+        </header>
+        <h1>Summary Chart</h1>
+        <img src="{{ url_for('static', filename='top_scores_chart.png') }}" alt="Top Scores Chart" style="padding-bottom: 20px;">
+    </div>
+</body>
+</html>
