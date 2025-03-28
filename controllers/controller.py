@@ -1,6 +1,10 @@
 from flask import Flask,render_template,redirect,request
 from flask import current_app as app
 from models.model1 import *
+import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 @app.route("/",methods=["GET","POST"])
 @app.route("/login",methods=["GET","POST"])
@@ -271,3 +275,25 @@ def delete_quest(id):
     db.session.delete(question)
     db.session.commit()
     return redirect(f"/view_quest/{quiz_id}")
+
+@app.route("/generate_chart/<name>",methods=["GET","POST"])
+def generate_chart(name):
+    top_scores = (
+        db.session.query(
+            Quiz.quiz_name,
+            db.func.max(Scores.score).label("top_score")
+        )
+        .join(Scores, Quiz.id == Scores.quiz_id)
+        .group_by(Quiz.quiz_name)
+        .all()
+    )
+
+    df = pd.DataFrame(top_scores, columns=["quiz", "topscore"])
+    plt.figure(figsize=(10, 5))
+    bars = plt.bar(df["quiz"], df["topscore"], color=["#4B0082", "#008080", "#2E8B57", "#32CD32"])
+    plt.title("Quiz-wise Top Scores", fontsize=14, fontweight="bold")
+    plt.xlabel("Quiz", fontsize=12)
+    plt.ylabel("Top Score", fontsize=12)
+    plt.savefig("static/top_scores_chart.png")
+    plt.close()
+    return render_template("summary.html",user=name)
