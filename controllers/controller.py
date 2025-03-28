@@ -132,14 +132,24 @@ def chap_search():
 
 @app.route("/user/<username>",methods=["GET","POST"])
 def user(username):
+    user_info = User.query.filter_by(username=username).first()
     quiz_info = Quiz.query.all()
-    return render_template("user.html",quiz_info=quiz_info,user=username)
+    attempt = QuizAttempt.query.filter_by(user_id=user_info.id).all()
+    quiz_ids=[]
+    for q in attempt:
+        quiz_ids.append(q.quiz_id)
+    return render_template("user.html",quiz_info=quiz_info,user=username,attempted=quiz_ids)
 
 @app.route("/quiz_search/<username>")
 def quiz_search(username):
+    user_info = User.query.filter_by(username=username).first()
+    attempt = QuizAttempt.query.filter_by(user_id=user_info.id).all()
+    quiz_ids=[]
+    for q in attempt:
+        quiz_ids.append(q.quiz_id)
     query = request.args.get("query", "").strip().lower()
     quiz_info = Quiz.query.filter(Quiz.quiz_name.ilike(f"%{query}%")).all()
-    return render_template("user.html",query=query,quiz_info=quiz_info,user=username)
+    return render_template("user.html",query=query,quiz_info=quiz_info,user=username,attempted=quiz_ids)
 
 @app.route("/view/<int:id>/<username>",methods=["GET","POST"])
 def view(id,username):
@@ -148,36 +158,41 @@ def view(id,username):
 
 @app.route("/start/<int:id>/<username>",methods=["GET","POST"])
 def start(id,username):
+    user_info = User.query.filter_by(username=username).first()
+    new_attempt = QuizAttempt(user_id=user_info.id,quiz_id=id)
+    db.session.add(new_attempt)
+    db.session.commit()
     question_info = Question.query.filter_by(quiz_id=id).all()
-    quizid = Quiz.query.filter_by(id=id).first()
-    return render_template("start.html",question_info=question_info,user=username,quiz=quizid)
+    quiz_info = Quiz.query.filter_by(id=id).first()
+    return render_template("start.html",question_info=question_info,user=username,quiz=quiz_info,attempt_id=new_attempt.id)
 
-@app.route("/scores/<username>", defaults={"id": None}, methods=["GET", "POST"])
-@app.route("/scores/<int:id>/<username>",methods=["GET","POST"])
-def scores(id,username):
+@app.route("/scores/<username>", defaults={"id": None,"attempt_id":None}, methods=["GET", "POST"])
+@app.route("/scores/<int:id>/<username>/<int:attempt_id>",methods=["GET","POST"])
+def scores(id,username,attempt_id):
     if request.method=="POST":
         question_info = Question.query.filter_by(quiz_id=id).all()
         submitted_answers = {int(key): int(request.form.get(key, 0)) for key in request.form.keys()}
         for qno,ans in submitted_answers.items():
             quest = Question.query.filter_by(qno=qno,quiz_id=id).first()
-            quest.choosen_option = ans
+            new_response = UserResponse(quiz_attempt_id=attempt_id,question_id=quest.id,chosen_option=ans)
+            db.session.add(new_response)
         db.session.commit()
         score = 0
         for q in question_info:
             if q.correct_option == submitted_answers[q.qno]:
                 score = score+1
-        user = User.query.filter_by(username=username).first()
-        new_score = Scores(score=score,quiz_id=id,user_id=user.id)
-        db.session.add(new_score)
+        attempt = QuizAttempt.query.filter_by(id=attempt_id).first()
+        attempt.score = score
         db.session.commit()
-    quiz_info = Quiz.query.all()
-    return render_template("scores.html",quiz_info=quiz_info,user=username)
+    user_info = User.query.filter_by(username=username).first()
+    attempt = QuizAttempt.query.filter_by(user_id=user_info.id).all()
+    return render_template("scores.html",user=username,all_attempt=attempt)
 
 @app.route("/view_attempt/<int:id>/<username>",methods=["GET","POST"])
 def view_attempt(id,username):
-    question_info = Question.query.filter_by(quiz_id=id).all()
-    quizid = Quiz.query.filter_by(id=id).first()
-    return render_template("view_attempt.html",question_info=question_info,user=username,quiz=quizid)
+    attempt = QuizAttempt.query.filter_by(id=id).first()
+    response = UserResponse.query.filter_by(quiz_attempt_id=id).all()
+    return render_template("view_attempt.html",response_info=response,user=username,attempt=attempt)
 
 @app.route("/edit_subject/<int:id>",methods=["GET","POST"])
 def edit_subject(id):
@@ -281,9 +296,9 @@ def generate_chart(name):
     top_scores = (
         db.session.query(
             Quiz.quiz_name,
-            db.func.max(Scores.score).label("top_score")
+            db.func.max(QuizAttempt.score).label("top_score")
         )
-        .join(Scores, Quiz.id == Scores.quiz_id)
+        .join(QuizAttempt, Quiz.id == QuizAttempt.quiz_id)
         .group_by(Quiz.quiz_name)
         .all()
     )

@@ -13,7 +13,7 @@
                 <ul>
                     <li><a href="/user/{{user}}">Home</a></li>
                     <li><a href="/scores/{{user}}">Scores</a></li>
-                    <li><a href="#summary">Summary</a></li>
+                    <li><a href="/generate_chart/{{user}}">Summary</a></li>
                     <li><a href="/login">Logout</a></li>
                 </ul>
             </nav>
@@ -37,26 +37,17 @@
                     <th>Total Score</th>
                     <th>Actions</th>
                 </tr>
-                {% for quiz in quiz_info %}
+                {% for attempt in all_attempt %}
                 <tr>
-                    <td>{{quiz.quiz_name}}</td>
-                    <td>{{quiz.chapter_details.chapter_name}}</td>
-                    <td>{{quiz.question_details | length}}</td>
-                    {% if quiz.score_details and quiz.score_details.score >=0 %}
-                    <td>{{quiz.score_details.score}}</td>
+                    <td>{{attempt.quiz_details.quiz_name}}</td>
+                    <td>{{attempt.quiz_details.chapter_details.chapter_name}}</td>
+                    <td>{{attempt.quiz_details.question_details | length}}</td>
+                    <td>{{attempt.score}}</td>
                     <td>
-                        <form action="/view_attempt/{{quiz.id}}/{{user}}" style="display: inline-block;">
+                        <form action="/view_attempt/{{attempt.id}}/{{user}}" style="display: inline-block;">
                             <button>View Attempt</button>
                         </form>
                     </td>
-                    {% else %}
-                    <td>Not Attempted</td>
-                    <td>
-                        <form action="/start/{{quiz.id}}/{{user}}" style="display: inline-block;">
-                            <button>Start</button>
-                        </form>
-                    </td>
-                    {% endif %}
                 </tr>
                 {% endfor %}
             </table>

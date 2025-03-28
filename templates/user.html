@@ -13,7 +13,7 @@
                 <ul>
                     <li><a href="/user/{{user}}">Home</a></li>
                     <li><a href="/scores/{{user}}">Scores</a></li>
-                    <li><a href="#summary">Summary</a></li>
+                    <li><a href="/generate_chart/{{user}}">Summary</a></li>
                     <li><a href="/login">Logout</a></li>
                 </ul>
             </nav>
@@ -40,7 +40,7 @@
                 </tr>
                 {% for quiz in quiz_info %}
                 <tr>
-                    {% if not quiz.score_details %}
+                    {% if quiz.id not in attempted %}
                     <td>{{quiz.quiz_name}}</td>
                     <td>{{quiz.question_details | length}}</td>
                     <td>{{quiz.deadline}}</td>
@@ -70,7 +70,7 @@
                 </tr>
                 {% for quiz in quiz_info %}
                 <tr>
-                    {% if quiz.score_details %}
+                    {% if quiz.id in attempted %}
                     <td>{{quiz.quiz_name}}</td>
                     <td>{{quiz.question_details | length}}</td>
                     <td>{{quiz.deadline}}</td>

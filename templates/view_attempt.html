@@ -7,27 +7,27 @@
 <body>
     <div class="quiz">
         <div class="header">
-            <h2>Subject: {{quiz.chapter_details.sub_details.subject_name}}</h2>
-            <h2>Quiz name: {{quiz.quiz_name}}</h2>
-            <h2>Chapter: {{quiz.chapter_details.chapter_name}}</h2>
+            <h2>Subject: {{attempt.quiz_details.chapter_details.sub_details.subject_name}}</h2>
+            <h2>Quiz name: {{attempt.quiz_details.quiz_name}}</h2>
+            <h2>Chapter: {{attempt.quiz_details.chapter_details.chapter_name}}</h2>
         </div>
         <div class="info">
-            Total Marks: {{question_info | length}}
-            <strong class="time-left">Duration: {{quiz.duration}}:00</strong>
+            Total Marks: {{attempt.quiz_details.question_details | length}}
+            <strong class="time-left">Duration: {{attempt.quiz_details.duration}}:00</strong>
         </div>
-        <form id="quiz-form" action="/scores/{{quiz.id}}/{{user}}">
-        {% for question in question_info %}
+        <form id="quiz-form" action="/scores/{{user}}">
+        {% for response in response_info %}
         <div class="question">
-            <p><strong>Question {{question.qno}}:</strong></p>
-            <p>{{question.question_statement}}</p>
+            <p><strong>Question {{response.question_details.qno}}:</strong></p>
+            <p>{{response.question_details.question_statement}}</p>
             <div class="options">
-                <label><input type="radio" {% if question.choosen_option == 1 %} checked {% endif %} disabled> {{question.option1}}</label>
-                <label><input type="radio" {% if question.choosen_option == 2 %} checked {% endif %} disabled> {{question.option2}}</label>
-                <label><input type="radio" {% if question.choosen_option == 3 %} checked {% endif %} disabled> {{question.option3}}</label>
-                <label><input type="radio" {% if question.choosen_option == 4 %} checked {% endif %} disabled> {{question.option4}}</label>
+                <label><input type="radio" {% if response.chosen_option == 1 %} checked {% endif %} disabled> {{response.question_details.option1}}</label>
+                <label><input type="radio" {% if response.chosen_option == 2 %} checked {% endif %} disabled> {{response.question_details.option2}}</label>
+                <label><input type="radio" {% if response.chosen_option == 3 %} checked {% endif %} disabled> {{response.question_details.option3}}</label>
+                <label><input type="radio" {% if response.chosen_option == 4 %} checked {% endif %} disabled> {{response.question_details.option4}}</label>
             </div>
         </div>
-        <strong>Your Option: {{question.choosen_option}} | Correct Option: {{question.correct_option}}</strong>
+        <strong>Your Option: {{response.chosen_option}} | Correct Option: {{response.question_details.correct_option}}</strong>
         {% endfor %}
         <div class="but">
             <button>CLOSE</button>

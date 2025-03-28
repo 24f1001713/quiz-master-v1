@@ -49,7 +49,7 @@
             Total Marks: {{question_info | length}}
             <strong class="time-left" id="time-left">Time Left: {{quiz.duration}}:00</strong>
         </div>
-        <form id="quiz-form" action="/scores/{{quiz.id}}/{{user}}" method="POST">
+        <form id="quiz-form" action="/scores/{{quiz.id}}/{{user}}/{{attempt_id}}" method="POST">
         {% for question in question_info %}
         <div class="question">
             <p><strong>Question {{question.qno}}:</strong></p>
