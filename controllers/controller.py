@@ -333,3 +333,14 @@ def generate_chart(name):
         plt.savefig("static/top_scores_chart.png")
         plt.close()
         return render_template("summary.html",user=name)
+
+@app.route("/user_details",methods=["GET","POST"])
+def user_details():
+    users = User.query.all()
+    return render_template("user_details.html",users=users)
+
+@app.route("/user_search")
+def user_search():
+    query = request.args.get("query", "").strip().lower()
+    user_info = User.query.filter(User.username.ilike(f"%{query}%")).all()
+    return render_template("user_details.html",query=query,users=user_info)
