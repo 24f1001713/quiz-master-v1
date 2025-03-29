@@ -113,7 +113,7 @@ def question(id):
             new_question = Question(qno=qno,quiz_id=id,question_statement=qstatement,correct_option=answer,option1=option1,option2=option2,option3=option3,option4=option4)
             db.session.add(new_question)
             db.session.commit()
-            return redirect("/quiz_home")
+            return redirect(f"/question/{id}")
         else:
             return redirect("/quiz_home")
     return render_template("new_question.html",quiz_name=id)
